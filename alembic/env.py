@@ -12,7 +12,7 @@ sys.path.append(os.path.join(sys.path[0], 'src'))
 
 from src.config import DB_HOST, DB_PASS, DB_PORT, DB_USER, DB_NAME
 from src.auth.models import metadata as auth_metadata
-from src.models import metadata as card_metadata
+from src.card.models import metadata as card_metadata
 
 
 # this is the Alembic Config object, which provides

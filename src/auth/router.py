@@ -7,8 +7,7 @@ from starlette import status
 from src.auth.utils import get_hashed_password, verify_password, create_access_token, create_refresh_token
 from src.database import get_async_session
 from src.auth.models import accounts_table
-from src.auth.schemas import UserCreate, UserAuth, SystemUser, UserOut, TokenSchema
-from src.auth.dependencies import get_current_user
+from src.auth.schemas import UserCreate, UserOut, TokenSchema
 
 router = APIRouter(
     prefix="/auth",
@@ -62,8 +61,3 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Async
         "access_token": create_access_token(user.login),
         "refresh_token": create_refresh_token(user.login),
     }
-
-
-@router.get('/me', summary='Get details of currently logged in user', response_model=UserOut)
-async def get_me(user: SystemUser = Depends(get_current_user)):
-    return user

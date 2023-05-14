@@ -1,5 +1,4 @@
 from sqlalchemy import Table, Column, Integer, String, MetaData, Identity
-from sqlalchemy.schema import Sequence
 
 metadata = MetaData()
 
