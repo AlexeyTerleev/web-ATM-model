@@ -1,8 +1,7 @@
+from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from typing import Union, Any
 from jose import jwt
-from passlib.context import CryptContext
-
 from src.config import JWT_SECRET_KEY, JWT_REFRESH_SECRET_KEY, \
     ACCESS_TOKEN_EXPIRE_MINUTES, REFRESH_TOKEN_EXPIRE_MINUTES, ALGORITHM
 

@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from jose import jwt
 from pydantic import ValidationError
-from src.auth.utils import ALGORITHM, JWT_SECRET_KEY
-from src.auth.schemas import TokenPayload, SystemUser
+from src.config import ALGORITHM, JWT_SECRET_KEY
+from src.auth.schemas import SystemUser, TokenPayload
 from src.database import get_async_session
 from src.auth.models import accounts_table
 
@@ -29,7 +29,7 @@ async def get_current_user(token: str = Depends(reuseable_oauth),
                 detail="Token expired",
                 headers={"WWW-Authenticate": "Bearer"},
             )
-    except (jwt.JWTError, ValidationError) as e:
+    except (jwt.JWTError, ValidationError):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail= "Could not validate credentials",

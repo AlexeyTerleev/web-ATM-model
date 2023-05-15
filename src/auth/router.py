@@ -24,7 +24,7 @@ async def create_user(data: UserCreate, session: AsyncSession = Depends(get_asyn
     if result is not None:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User with this email already exist"
+            detail="User with this login already exist"
         )
 
     user = {
@@ -45,16 +45,10 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), session: Async
     query = select(accounts_table).where(accounts_table.c.login == form_data.username)
     user = await session.execute(query)
     user = user.first()
-    if user is None:
+    if user is None or not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect email or password"
-        )
-
-    if not verify_password(form_data.password, user.hashed_password):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Incorrect email or password"
+            detail="Incorrect login or password"
         )
 
     return {
